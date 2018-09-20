@@ -25,7 +25,7 @@ cell.each(function(i,elem){
                 if (this.type === 'text' && this.value != ",")
                     return $(this).text().trim().toString();
             }).get();
-        myContent = myContent.splice(2,3);
+        myContent = myContent.splice(2,2);
         myKey = toTitleCase(myKey);
         dict.push({
 				key: myKey,
