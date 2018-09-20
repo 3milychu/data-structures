@@ -18,7 +18,7 @@ function format(n) {
 //     console.log(path);
 // }
 
-// Construct a function for each path and store
+// Construct a function template for each path and empty list for storage
 var funcs = [];
 
 function getEachPage(i) {
