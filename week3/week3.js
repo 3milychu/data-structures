@@ -50,11 +50,11 @@ async.eachSeries(addresses, function(value, callback) {
             
             // Push to meetingsData array
             meetingsData.push({
-				meeting_address: obj.InputAddress['StreetAddress'],
-				latlong: {
-                lat: lat,
-                lng: lng
-				}
+			meeting_address: obj.InputAddress['StreetAddress'],
+			latlong: {
+            lat: lat,
+            lng: lng
+			    }
 			});
         }
     });
