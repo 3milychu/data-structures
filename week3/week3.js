@@ -30,6 +30,8 @@ async.eachSeries(addresses, function(value, callback) {
     request(apiRequest, function(err, resp, body) {
         if (err) {throw err;}
         else {
+            
+            // access deeply nested OutputGeocode
             var obj = JSON.parse(body);
             var key = Object.keys(obj)[10];
             var value = obj[key]
@@ -45,14 +47,15 @@ async.eachSeries(addresses, function(value, callback) {
             var obj4= JSON.parse(dict);
             var lat = obj4.Latitude;
             var lng = obj4.Longitude;
-
+            
+            // Push to meetingsData array
             meetingsData.push({
 				meeting_address: obj.InputAddress['StreetAddress'],
 				latlong: {
-                    lat: lat,
-                    lng: lng
-				    }
-			    });
+                lat: lat,
+                lng: lng
+				}
+			});
         }
     });
     setTimeout(callback, 2000);
