@@ -21,17 +21,16 @@ var dict = [];
 cell.each(function(i,elem){
     if(i%3 === 0 | i ===0 ){
         var myKey = $(elem).children().eq(2).text().trim().toString();
-        var myContent = $(elem).contents().map(function() {
-                if (this.type === 'text')
-                  return $(this).text().trim();
-            }).get();
-        myContent = myContent.splice(2,2);
+        var myContent = $(elem).contents().filter(function() {
+                return this.type === 'text';
+            }).text().trim();
+        myContent = myContent.split(",")[0] + ", New York, NY";
         myKey = toTitleCase(myKey)
         myKey= myKey.replace("-", "");
         myKey = myKey.trim();
         dict.push({
-				key: myKey,
-				value: myContent
+				meeting_name: myKey,
+				meeting_address: myContent
 			});
     }
 })
