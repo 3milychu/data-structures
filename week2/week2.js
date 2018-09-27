@@ -24,7 +24,7 @@ cell.each(function(i,elem){
         var myContent = $(elem).contents().filter(function() {
                 return this.type === 'text';
             }).text().trim();
-        myContent = myContent.split(",")[0] + ", New York, NY";
+        myContent = myContent.split(",")[0];
         myKey = toTitleCase(myKey)
         myKey= myKey.replace("-", "");
         myKey = myKey.trim();
