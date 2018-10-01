@@ -33,20 +33,6 @@ async.eachSeries(addresses, function(value, callback) {
             
             // access deeply nested OutputGeocode
             var obj = JSON.parse(body);
-            // var key = Object.keys(obj)[10];
-            // var value = obj[key]
-            // var geocodes = JSON.stringify(value);
-            // var obj2 = JSON.parse(geocodes);
-            // var key2 = Object.keys(obj2)[0];
-            // var value2 = obj2[key2];
-            // var geocode = JSON.stringify(value2);
-            // var obj3 = JSON.parse(geocode);
-            // var key3 = Object.keys(obj3)[0];
-            // var value3 = obj3[key3];
-            // var dict = JSON.stringify(value3);
-            // var obj4= JSON.parse(dict);
-            // var lat = obj4.Latitude;
-            // var lng = obj4.Longitude;
             var lat = obj['OutputGeocodes'][0]['OutputGeocode']['Latitude'];
             var lng = obj['OutputGeocodes'][0]['OutputGeocode']['Longitude'];
             
