@@ -21,9 +21,9 @@ client.connect();
 // // Sample SQL statement to delete a table: 
 // var thisQuery = "DROP TABLE aalocations;"; 
 // // Sample SQL statement to query the entire contents of a table: 
-// var thisQuery = "SELECT * FROM aalocations;";
+var thisQuery = "SELECT * FROM aalocations;";
 // var thisQuery = "SELECT address FROM aalocations;";
-var thisQuery = "SELECT lng FROM aalocations;";
+// var thisQuery = "SELECT lng FROM aalocations;";
 
 client.query(thisQuery, (err, res) => {
     console.log(err, res);
