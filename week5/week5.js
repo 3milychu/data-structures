@@ -1,9 +1,13 @@
 var AWS = require('aws-sdk');
 AWS.config = new AWS.Config();
 AWS.config.accessKeyId = process.env.AWS_ID;
+<<<<<<< HEAD
 // AKIAJLYYBWDWZWOLSWLQ
 AWS.config.secretAccessKey = process.env.AWS_KEY; 
 // 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
+=======
+AWS.config.secretAccessKey = process.env.AWS_KEY; 
+>>>>>>> d2e1f3da97acd775c671f22f4748aba1b1ab2055
 AWS.config.region = "us-east-1";
 var fs = require('fs');
 var request = require('request');
