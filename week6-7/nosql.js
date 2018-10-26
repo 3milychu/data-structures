@@ -8,15 +8,15 @@ AWS.config.region = "us-east-1";
 var dynamodb = new AWS.DynamoDB();
 
 var params = {
-    TableName : "mydiary",
-    KeyConditionExpression: "#tp = :topicName and dt between :minDate and :maxDate", // the query expression
+    TableName : "deardiary",
+    KeyConditionExpression: "#dt = :dominant_temporality and date between :minDate and :maxDate", // the query expression
     ExpressionAttributeNames: { // name substitution, used for reserved words in DynamoDB
-        "#tp" : "topic"
+        "#dt" : "dt"
     },
     ExpressionAttributeValues: { // the query values
-        ":topicName": {S: "work"},
-        ":minDate": {N: new Date("September 1, 2018").valueOf().toString()},
-        ":maxDate": {N: new Date("October 16, 2018").valueOf().toString()}
+        ":dominant_temporality": {S: "present"},
+        ":minDate": {N: new Date("10/8/2018").valueOf().toString()},
+        ":maxDate": {N: new Date("10/9/2018").valueOf().toString()}
     }
 };
 
