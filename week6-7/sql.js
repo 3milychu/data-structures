@@ -23,7 +23,7 @@ db_credentials.port = 5432;
 // var thisQuery = "SELECT * FROM aadata;";
 // var thisQuery = "SELECT address FROM aalocations;";
 // var thisQuery = "SELECT lng FROM aalocations;";
-var thisQuery = "CREATE TABLE aadata (day varchar(25), start varchar(25), end varchar(25), name varchar(75), location varchar(75), address varchar(75), lat double precision, long double precision, region varchar(75), type varchar(150), interests varchar(150));";
+// var thisQuery = "CREATE TABLE aadata (day varchar(25), start varchar(25), end varchar(25), name varchar(75), location varchar(75), address varchar(75), lat double precision, long double precision, region varchar(75), type varchar(150), interests varchar(150));";
 // var thisQuery = "CREATE TABLE aadata (time_day varchar(25), time_start varchar(25), time_end varchar(25), name varchar(75));";
 
 // client.query(thisQuery, (err, res) => {
@@ -39,7 +39,7 @@ async.eachSeries(data, function(value, callback) {
     const client = new Client(db_credentials);
     client.connect();
 
-    var thisQuery = "INSERT INTO aadata VALUES (E'" + value.day + ", " + value.start + ", " + value.end + ", " + value.name + ", " + value.location + ", " + value.address + ", " + value.lat + ", " + value.long + ", " + value.region + ", " + value.type + ", " + value.interest +");";
+    var thisQuery = "INSERT INTO aadata VALUES (E'" + value.day + "', " + value.start + ", " + value.end + ", " + value.name + ", " + value.location + ", " + value.address + ", " + value.lat + ", " + value.long + ", " + value.region + ", " + value.type + ", " + value.interest +");";
     // var thisQuery = "SELECT time_day, time_start, time_end, name, location FROM aadata WHERE day = 'Monday' and mtghour == '7:00 PM';";
     
     client.query(thisQuery, (err, res) => {
