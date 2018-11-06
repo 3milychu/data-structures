@@ -16,17 +16,13 @@ db_credentials.port = 5432;
 const client = new Client(db_credentials);
 client.connect();
 
-// Sample SQL statement to create a table: 
-// Sample SQL statement to delete a table: 
+
 // var thisQuery = "DROP TABLE aadata;"; 
-// var thisQuery = "CREATE TABLE aadata (time_day varchar(25), time_start varchar(25), time_end varchar(25));";
-// Sample SQL statement to query the entire contents of a table: 
+// var thisQuery = "DELETE FROM aadata;";
 // var thisQuery = "SELECT * FROM aadata;";
-var thisQuery = "SELECT address FROM aadata;";
-// var thisQuery = "SELECT address FROM aalocations;";
+var thisQuery = "SELECT time_day, time_start, time_end FROM aadata WHERE time_day = 'Monday';";
 // var thisQuery = "SELECT lng FROM aalocations;";
 // var thisQuery = "CREATE TABLE aadata (time_day varchar(25), time_start varchar(25), time_end varchar(25), name varchar(75), location varchar(75), address varchar(75), lat double precision, long double precision, region varchar(75), type varchar(150), interests varchar(150));";
-// var thisQuery = "CREATE TABLE aadata (time_day varchar(25), time_start varchar(25), time_end varchar(25), name varchar(75));";
 
 client.query(thisQuery, (err, res) => {
     console.log(err, res);
@@ -47,10 +43,28 @@ client.query(thisQuery, (err, res) => {
 //     const client = new Client(db_credentials);
 //     client.connect();
     
-//     var thisQuery = "INSERT INTO aadata VALUES (E'" + value.day + "', '" + value.start + "', '" + value.end + "', '" + value.name + "', '" + value.location + "', '" + value.address + "', '" + value.lat + "', '" + value.long + "', '" + value.region + "', '" + value.type + "', '" + value.interest + "');";
+//     // handle single apostrophes in names
+//     var name = value.name;
+//     var test1 = name.indexOf('\'') >= 0;
+//     if (test1 == true ){
+//         name = name.replace(/'/g,"''");
+//     } else {
+//         name = value.name;
+//     }
+    
+//     // handle single apostrophes in locations
+//     var location = value.location;
+//     var test2 = location.indexOf('\'') >= 0;
+//     if (test2 == true ){
+//         location = location.replace(/'/g,"''");
+//     } else {
+//         location = value.location;
+//     }
+    
+//     var thisQuery = "INSERT INTO aadata VALUES (E'" + value.day + "', '" + value.start + "', '" + value.end + "', '" + name + "', E'" + location + "', E'" + value.address + "', '" + value.lat + "', '" + value.long + "', '" + value.region + "', '" + value.type + "', '" + value.interest + "');";
    
 //     client.query(thisQuery, (err, res) => {
-//         console.log(err, res);
+//         console.log(value, err, res);
 //         client.end();
 //     });
 //     setTimeout(callback, 1000); 
