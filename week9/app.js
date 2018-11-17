@@ -9,9 +9,9 @@ var device_url = 'https://api.particle.io/v1/devices/' + device_id + '/' + parti
 
 // AWS RDS POSTGRESQL INSTANCE
 var db_credentials = new Object();
-db_credentials.user = 'aaron';
+db_credentials.user = 'chue123';
 db_credentials.host = process.env.AWSRDS_EP;
-db_credentials.database = 'mydb';
+db_credentials.database = 'sensordb';
 db_credentials.password = process.env.AWSRDS_PW;
 db_credentials.port = 5432;
 
@@ -23,14 +23,9 @@ var getAndWriteData = function() {
         // Store sensor value(s) in a variable
         var sv = JSON.parse(body).result;
         
-        // Convert 1/0 to TRUE/FALSE for the Postgres INSERT INTO statement
+        // Store result for Postgres INSERT INTO statement
         var sv_mod; 
-        if (sv == 1) {
-            sv_mod = "TRUE";
-        }
-        else if (sv == 0) {
-            sv_mod = "FALSE";
-        }
+        sv_mod = sv;
 
         // Connect to the AWS RDS Postgres database
         const client = new Client(db_credentials);
