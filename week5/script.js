@@ -14,8 +14,8 @@ class DiaryEntry {
   constructor(primaryKey, date, mental, emotional, physical, weather, primary_events, reoccuring_thoughts, dominant_temporality) {
     this.pk = {};
     this.pk.N = primaryKey.toString();
-    this.date = {}; 
-    this.date.S = new Date(date).toDateString();
+    this.dt = {}; 
+    this.dt.S = new Date(date).toDateString();
     this.mental = {};
     this.mental.N = mental;
     this.emotional = {};
