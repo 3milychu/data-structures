@@ -21,21 +21,21 @@ var thirdQuery = "SELECT sensorValue, COUNT (*) FROM sensorData GROUP BY sensorV
 client.query(thisQuery, (err, res) => {
     if (err) {throw err}
     else {
-    cTable(res.rows);
+    console.table(res.rows);
     }
 });
 
 client.query(secondQuery, (err, res) => {
     if (err) {throw err}
     else {
-    cTable(res.rows);
+    console.table(res.rows);
     }
 });
 
 client.query(thirdQuery, (err, res) => {
     if (err) {throw err}
     else {
-    cTable(res.rows);
+    console.table(res.rows);
     }
     client.end();
 });

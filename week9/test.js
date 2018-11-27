@@ -1,19 +1,18 @@
 var request = require('request');
 const { Client } = require('pg');
 
-// PARTICLE PHOTON
-var device_id = process.env.PHOTON_ID;
-var access_token = process.env.PHOTON_TOKEN;
-var particle_variable = 'analogvalue';
-var device_url = 'https://api.particle.io/v1/devices/' + device_id + '/' + particle_variable + '?access_token=' + access_token;
-
-// AWS RDS POSTGRESQL INSTANCE
+ // AWS RDS POSTGRESQL INSTANCE
 var db_credentials = new Object();
 db_credentials.user = 'chue134';
 db_credentials.host = process.env.AWSRDS_EP;
 db_credentials.database = 'sensordb';
 db_credentials.password = process.env.AWSRDS_PW;
 db_credentials.port = 5432;
+// PARTICLE PHOTON
+var device_id = process.env.PHOTON_ID;
+var access_token = process.env.PHOTON_TOKEN;
+var particle_variable = 'analogvalue';
+var device_url = 'https://api.particle.io/v1/devices/' + device_id + '/' + particle_variable + '?access_token=' + access_token;
 
 var getAndWriteData = function() {
     
@@ -22,6 +21,7 @@ var getAndWriteData = function() {
         
         // Store sensor value(s) in a variable
         var sv = JSON.parse(body).result;
+        console.log(sv);
         
         // Store result for Postgres INSERT INTO statement
         var sv_mod; 
@@ -43,6 +43,4 @@ var getAndWriteData = function() {
     });
 };
 
-// write a new row of sensor data every five minutes
-// api rate limit 10 times a second
-setInterval(getAndWriteData, 60000);
+getAndWriteData();
