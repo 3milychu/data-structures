@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express')
 var app = express();
 const { Pool } = require('pg');
 var AWS = require('aws-sdk');
@@ -16,6 +16,8 @@ AWS.config = new AWS.Config();
 AWS.config.accessKeyId = process.env.AWS_ID;
 AWS.config.secretAccessKey = process.env.AWS_KEY;
 AWS.config.region = "us-east-1";
+
+console.log(db_credentials.host)
 
 var script1 = `
 var data;
@@ -59,7 +61,8 @@ callback(map_data);
 }
 function getmap(data) {
     var mymap = L.map('map').setView([40.734636,-73.994997], 13);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
