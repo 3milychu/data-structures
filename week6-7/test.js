@@ -5,7 +5,7 @@ function format(n) {
     return (n < 10) ? ("0" + n) : n;
 }
 // 10
-for(var f=10;f<11;f++){
+for(var f=1;f<11;f++){
     
     var file = format(f);
     var json = fs.readFileSync("aadata/parsed_data/parsed_m" + file + ".json");
