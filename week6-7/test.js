@@ -4,11 +4,11 @@ var fs = require('fs');
 function format(n) {
     return (n < 10) ? ("0" + n) : n;
 }
-
-for(var f=1;f<10;f++){
+// 10
+for(var f=10;f<11;f++){
     
     var file = format(f);
-    var json = fs.readFileSync("aadata/parsed_data/parsed_m0" + f + ".json");
+    var json = fs.readFileSync("aadata/parsed_data/parsed_m" + file + ".json");
     var data = JSON.parse(json);
     
     var result = [];

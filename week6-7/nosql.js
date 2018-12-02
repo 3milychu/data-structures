@@ -9,14 +9,15 @@ var dynamodb = new AWS.DynamoDB();
 
 var params = {
     TableName : "deardiary",
-    KeyConditionExpression: "#dt = :dominant_temporality and dt between :minDate and :maxDate", // the query expression
+    KeyConditionExpression: "#pk = :pk", // the query expression
     ExpressionAttributeNames: { // name substitution, used for reserved words in DynamoDB
-        "#dt" : "temporality"
+        "#pk" : "pk",
+        // "#dt" : "dt"
     },
     ExpressionAttributeValues: { // the query values
-        ":dominant_temporality": {S: "present"},
-        ":minDate": {N: new Date("October 8, 2018").valueOf().toString()},
-        ":maxDate": {N: new Date("October 9, 2018").valueOf().toString()}
+        ":pk": {N: "1"},
+        // ":min": {S: new Date("October 1, 2018").valueOf().toString()},
+        // ":max": {S: new Date("October 30, 2018").valueOf().toString()}
     }
 };
 
