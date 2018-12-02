@@ -17,28 +17,7 @@ AWS.config.accessKeyId = process.env.AWS_ID;
 AWS.config.secretAccessKey = process.env.AWS_KEY;
 AWS.config.region = "us-east-1";
 
-var aahtml1 = `
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-   crossorigin=""/>
-   <style>
-   #map {
-       height:100vh;
-   }
-   </style>
-</head>
-<body>
-
-<div id="map"></div>
- <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
-   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-   crossorigin=""></script>
-</body>
-<script>
+var script1 = `
 var data;
 var map_data;
 
@@ -72,7 +51,7 @@ function getdata(callback) {
    return finalResult;
 }
 data =`
-var aahtml2 = `
+var script2 = `
 ;
 map_data = data.groupBy(['lat','long']);
 console.log(map_data);
@@ -95,10 +74,8 @@ function getmap(data) {
 }
 
 getdata(getmap);
-</script>
-</html>
 `
-app.get('/aameetings', function(req, res) {
+app.get('/script.js', function(req, res) {
     
     // Connect to the AWS RDS Postgres database
     const client = new Pool(db_credentials);
@@ -116,7 +93,7 @@ var thisQuery = `SELECT * FROM aadata`;
     client.query(thisQuery, (qerr, qres) => {
         if (qerr) { throw qerr }
         else {
-            var resp = aahtml1 + JSON.stringify(qres.rows) + aahtml2;
+            var resp = script1 + JSON.stringify(qres.rows) + script2;
             res.send(resp);
             client.end();
             console.log('2) responded to request for aa meeting data');
