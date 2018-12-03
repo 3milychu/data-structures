@@ -71,10 +71,43 @@ function getmap(data) {
     }).addTo(mymap);
     for (var i=0; i<map_data.length; i++) {
         ref = map_data[i];
-        console.log(ref.values);
-        L.marker( [map_data[i].lat, map_data[i].long] ).bindPopup(ref.values.length + ": " + JSON.stringify(map_data[i].values)).addTo(mymap);
+        console.log(ref);
+        meetings=[];
+        meetings.push("<h2>" + ref.values[0]['location'] + "</h2>");
+        meetings.push("<p>"+ref.values[0]['address']+"</p>");
+        
+        for (var j=0;j<ref.values.length;j++){
+        meetings.push("<p><em>"+ref.values[j]['time_day'] + "s</em>" + " " + time(ref.values[j]['time_start'])+"-" +time(ref.values[j]['time_end'])+"</p>");
+        }
+        
+        string_meetings = meetings.join("<br>");
+        L.marker( [map_data[i].lat, map_data[i].long] ).bindPopup(string_meetings).addTo(mymap);
     }  
 }
+
+function time(decimal_time){
+    decimal_time = decimal_time.toString();
+     var hour = decimal_time.split(".")[0];
+     var min = decimal_time.split(".")[1];
+     var ampm;
+     hour = (hour < 10) ? ("0" + hour) : hour;
+     if(hour == 12) {
+         hour = 12;
+         ampm = "PM";
+         } else if (hour>12) {
+         hour = hour-12;
+         ampm = "PM";
+     } else {
+         hour = hour;
+         ampm = "AM";
+     }
+     if(min!=null){
+         min = (min < 10) ? (min + "0") : min;
+     } else {
+         min = "00";
+     }
+     return hour + ":" + min + " " + ampm;
+    }
 
 getdata(getmap);
 `
