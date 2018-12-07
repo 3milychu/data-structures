@@ -166,9 +166,10 @@ app.get('/script2.js', function(req, res) {
     const client = new Pool(db_credentials2);
 
     // SQL query 
-    var q = `SELECT EXTRACT(DAY FROM sensorTime) as sensorday,
-             AVG(sensorValue::int) as num_obs
+    var q = `SELECT sensorTime::timestamp::date as sensorday,
+             COUNT(sensorValue) as num_obs
              FROM sensorData
+             WHERE sensorValue>=11
              GROUP BY sensorday
              ORDER BY sensorday;`;
 

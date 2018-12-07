@@ -3,12 +3,69 @@
     <head>
         <title>Sentimental Higgy</title>
     </head>
+<style>
+.entry h2 {
+    display:inline-block;
+}
+.entry p {
+    display:inline-block;
+    margin-left:5%;
+}
+.entry {
+    display:block;
+}
+</style>
 <body>
     
 </body>
 
 <script type="text/javascript" src="/script2.js"></script>
 <script>
-    console.log(data);
+console.log(data);
+
+var formatDate = function() {
+return function(str) {
+    var daysNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+      d = new Date(str),
+      day = d.getDate(),
+      month = monthNames[d.getMonth()],
+      year = d.getFullYear().toString().substr(2, 2),
+      hours = d.getHours(),
+      minutes = d.getMinutes(),
+      dayName = daysNames[d.getDay()];
+    //return day + '-' + month + '-' + year + ' (' + dayName + ')';
+    return hours > 12 ? (dayName + ' ' + month + ' ' + day + ' ' + (hours - 12) + ":" + minutes + " PM"):
+      (dayName + ' ' + month + ' ' + day + ' ' + hours + ":" + minutes + " AM");
+      };
+    }();
+        
+var arr = [];
+for(var i=0;i<data.length;i++){
+    var timestamp = data[i]['sensorday'];
+    var day = formatDate(timestamp);
+    day = day.split(" 4:0");
+    day = day[0];
+    var num = data[i]['num_obs'];
+    arr.push({
+        key:day,
+        value: num
+    })
+}    
+
+for(i=0;i<arr.length;i++){
+    var entry = document.createElement('div');
+    entry.setAttribute('class',"entry");
+    var dayhtml= document.createElement('h2');
+    dayhtml.innerHTML=arr[i].key;
+    var counthtml = document.createElement('p');
+    counthtml.innerHTML=arr[i].value;
+    entry.appendChild(dayhtml);
+    entry.appendChild(counthtml);
+    target = document.querySelector('body');
+    target.appendChild(entry);
+    
+}
+console.log(arr);
 </script>
 </html>
