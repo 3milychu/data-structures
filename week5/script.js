@@ -11,9 +11,9 @@ var dynamodb = new AWS.DynamoDB();
 var diaryEntries = [];
 
 class DiaryEntry {
-  constructor(primaryKey, date, mental, emotional, physical, weather, primary_events, reoccuring_thoughts, dominant_temporality) {
-    this.pk = {};
-    this.pk.N = primaryKey.toString();
+  constructor(dominant_temporality, date, mental, emotional, physical, weather, primary_events, reoccuring_thoughts, doodle) {
+    this.temporality = {};
+    this.temporality.S = dominant_temporality;
     this.dt = {}; 
     this.dt.S = new Date(date).toDateString();
     this.mental = {};
@@ -28,8 +28,8 @@ class DiaryEntry {
     this.primary_events.S = primary_events;
     this.reoccuring_thoughts = {};
     this.reoccuring_thoughts.S = reoccuring_thoughts;
-    this.dominant_temporality = {};
-    this.dominant_temporality.S = dominant_temporality;
+    this.doodle = {};
+    this.doodle.N = doodle;
   }
 }
 var csv = require("fast-csv");
@@ -45,14 +45,22 @@ csv
         console.log("done");
         for (var i=0;i<diary.length;i++){
           var row = diary[i];
-          diaryEntries.push(new DiaryEntry(row['primaryKey'], row['date'], row['mental'], row['emotional'], row['physical'], 
-          row['weather'], row['primary_events'], row['reoccuring_thoughts'], row['dominant_temporality']));
+          var pk;
+          if(row['dominant_temporality']=="past"){
+            pk = 0;
+          } else if(row['dominant_temporality']=="present"){
+            pk = 1;
+          } else if(row['dominant_temporality']=="future"){
+            pk =3;
+          }
+          diaryEntries.push(new DiaryEntry(row['dominant_temporality'], row['date'], row['mental'], row['emotional'], row['physical'], 
+          row['weather'], row['primary_events'], row['reoccuring_thoughts'], row['doodle']));
         }
         // console.log(diaryEntries);
         for (i=0;i<diaryEntries.length;i++){
           var params = {};
           params.Item = diaryEntries[i]; 
-          params.TableName = "deardiary";
+          params.TableName = "doodlediary";
           console.log(params);
         
           dynamodb.putItem(params, function (err, data) {
