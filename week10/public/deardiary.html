@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Doodle Diary</title>
+    </head>
+<style>
+body, html {
+    font-family:'Helvetica Neue', sans-serif;
+    top:0;
+    left:0;
+    margin:0;
+    width:100%;
+}
+body {
+    margin:3%;
+}
+.logo {
+    width:12%;
+}
+.logo h1 {
+    width:100%;
+    padding:3%;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-size:1em;
+    border:0.2em solid black;
+    text-align:center;
+}
+.entry {
+    display:inline-block;
+    width:5%;
+    margin:2%;
+    cursor:pointer;
+    transition:0.5s ease-in-out;
+}
+.entry img {
+    width:100%;
+}
+.entry:hover {
+    box-shadow:0.2em 0.2em 2em #CCC;
+}
+
+.timeline h1 {
+    font-weight:100;
+    font-size:1em;
+    letter-spacing:0.2em;
+}
+#present h1 {
+    font-weight:900;
+    letter-spacing:0em;
+    font-size:1em;
+}
+.quickview {
+    width:50%;
+    height:50vh;
+    /*background-color:#F2F2F2;*/
+    box-shadow:0.2em 0.2em 2em #CCC;
+    border-radius:1em;
+}
+tag {
+    width:10%;
+    height:5vh;
+    background-color:#0E62B8;
+    padding:3%;
+    color:white;
+    text-transform:uppercase;
+    letter-spacing:0.2em;
+    font-size:0.8em;
+    font-weight:900;
+    box-shadow:0.2em 0.2em 2em #0E62B8;
+}
+.left {
+    width:50%;
+    float:left;
+    margin-top:5%;
+}
+.right {
+    width:40%;
+    float:right;
+    margin-top:15%;
+}
+.quickview img {
+    width:60%;
+    display:block;
+    margin-left:10%;
+    margin-top:10%;
+}
+.quickview h2 {
+    font-size:1em;
+    margin-left:10%;
+    margin-bottom:0%;
+    line-height:1em;
+}
+.left p {
+    margin-top:0%;
+    margin-left:10%;
+    font-weight:300;
+    font-style:italic;
+    font-size:0.8em;
+}
+#default {
+    padding:5%;
+    position: relative;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin:auto;
+    vertical-align:middle;
+}
+.timeline {
+    margin-top:5%;
+}
+</style>
+<body>
+ <!--Header/Logo-->
+<div class="logo">
+    <h1>Doodle Diary</h1>
+</div>
+
+<div class="timeline">
+    <h1>Temporality Disposition</h1>
+    <div id="past"></div>
+    <div id="present">
+        <h1>Present</h1>
+    </div>
+    <div id="future"></div>
+</div>
+
+<div class="quickview">
+    <h2 id=default>Click a doodle...</h2>
+</div>
+    
+</body>
+
+<script type="text/javascript" src="/script3.js"></script>
+<script>
+console.log(data);
+
+var present = data.filter(function(d){return d.temporality['S']=="present"})
+// var good_mental = data.filter(function(d){return d.mental['N']>=5})
+// var bad_mental = data.filter(function(d){return d.mental['N']<=5})
+console.log(present);
+
+for(var i=0;i<present.length;i++){
+    var target=document.querySelector('#present')
+    var entry = document.createElement('div');
+    entry.setAttribute("class","entry");
+    entry.setAttribute("id", "entry-"+present[i]['doodle']['N'])
+    var image = document.createElement('img');
+    image.setAttribute("src","doodles/"+present[i]['doodle']['N']+".jpg")
+    entry.appendChild(image);
+    target.appendChild(entry);
+}
+
+var entries = document.querySelectorAll('.entry');
+for(i=0;i<entries.length;i++){
+    entries[i].onclick=function() {
+        var target = document.querySelector('.quickview');
+        target.innerHTML="";
+        var ref = this.id;
+        ref = ref.split("-");
+        ref = ref[1];
+        console.log(ref);
+        target_data = present.filter(function(d){return d.doodle['N']==ref});
+        
+        var tag = document.createElement('tag');
+        tag.innerHTML=target_data[0]['temporality']['S'];
+        var left = document.createElement('div');
+        left.setAttribute("class","left");
+        var right = document.createElement('right');
+        right.setAttribute("class","right");
+        
+        console.log(target_data)
+        var doodle = document.createElement('img');
+        doodle.setAttribute("src","doodles/"+target_data[0]['doodle']['N']+".jpg")
+        var date = document.createElement('h2');
+        date.innerHTML=target_data[0]['dt']['S'];
+        var weather = document.createElement('p');
+        weather.innerHTML=target_data[0]['weather']['S'];
+        var events = document.createElement('p');
+        events.innerHTML=target_data[0]['primary_events']['S'];
+        var mental = document.createElement('p');
+        mental.innerHTML="Mental: " + target_data[0]['mental']['N'];
+        var emotional = document.createElement('p');
+        emotional.innerHTML="Emotional: " + target_data[0]['emotional']['N'];
+        var physical = document.createElement('p');
+        physical.innerHTML="Physical: " + target_data[0]['physical']['N'];
+        left.append(tag);
+        left.appendChild(doodle);
+        left.appendChild(date);
+        left.appendChild(weather);
+        right.appendChild(mental);
+        right.appendChild(emotional);
+        right.appendChild(physical);
+        target.appendChild(left);
+        target.appendChild(right);
+    }
+}
+
+    
+</script>
+</html>

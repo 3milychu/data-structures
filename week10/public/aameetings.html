@@ -282,18 +282,18 @@ $('#end').multipleSelect({
     function getlist(data) {
       results_summary.innerHTML=data.length + " results"; 
       filtered_entries.innerHTML="";
-      for(i=0;i<data.length;i++){
+      for(a=0;a<data.length;a++){
         var entry = document.createElement('div');
-        entry.id = "entry"+i;
+        entry.id = "entry"+a;
         entry.className="entry";
         var title = document.createElement('h2');
-        title.innerHTML= data[i]['name'];
+        title.innerHTML= data[a]['name'];
         var mtglocation = document.createElement('h2');
-        mtglocation.innerHTML= data[i]['location'];
+        mtglocation.innerHTML= data[a]['location'];
         var address = document.createElement('p');
-        address.innerHTML= data[i]['address'];
+        address.innerHTML= data[a]['address'];
         var mtgtime = document.createElement('p');
-        mtgtime.innerHTML = data[i]['time_day'] +"s from " + time(data[i]['time_start']) + " - " + time(data[i]['time_end']);
+        mtgtime.innerHTML = data[a]['time_day'] +"s from " + time(data[a]['time_start']) + " - " + time(data[a]['time_end']);
         entry.appendChild(title);
         entry.appendChild(mtglocation);
         entry.appendChild(address);
@@ -304,8 +304,9 @@ $('#end').multipleSelect({
     
    
     var filters = document.querySelectorAll('input');
-    for(i=0;i<filters.length;i++){
-        filters[i].onclick=function(){
+    for(b=0;b<filters.length;b++){
+        filters[b].onclick=function(){
+            var updated_data = data;
             var checked_days = [];
             var checked_start = [];
             console.log('click registered');
@@ -316,35 +317,38 @@ $('#end').multipleSelect({
                 checked_days.push("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
                 updated_data = data.filter(f => checked_days.includes(f.time_day));
                 getlist(updated_data);
+                getmap(updated_data);
                 myplan();
             } else if (checked_value == "selectItemdays"){
                 var checked = document.querySelectorAll('input[data-name=selectItemdays]:checked');
-                for(i=0;i<checked.length;i++){
-                    checked_days.push(checked[i].value);
+                for(c=0;c<checked.length;c++){
+                    checked_days.push(checked[c].value);
                     }
                 console.log(checked_days);
                 updated_data = data.filter(f => checked_days.includes(f.time_day));
                 console.log(updated_data);
                 getlist(updated_data);
+                getmap(updated_data)
                 myplan();
             }
             // Start time filter
             else if(checked_value == "selectItemstart"){
                 var checked = document.querySelectorAll('input[data-name=selectItemstart]:checked');
                 if(checked.length>0){
-                    for(i=0;i<checked.length;i++){
-                    checked_start.push(parseFloat(checked[i].value));
+                    for(c=0;c<checked.length;c++){
+                    checked_start.push(parseFloat(checked[c].value));
                     }
                     console.log(checked_start);
-                    updated_data = data.filter(f => checked_days.includes(f.time_day));
                     updated_data = updated_data.filter(f => checked_start.includes(f.time_start));
                     console.log(updated_data);
                     getlist(updated_data);
+                    getmap(updated_data)
                     myplan();
                 } else if (checked.length=0){
-                    updated_data = data.filter(f => checked_days.includes(f.time_day));
                     getlist(updated_data);
+                    getmap(updated_data)
                     myplan();
+                   
                 }
                 
             }
@@ -354,8 +358,8 @@ $('#end').multipleSelect({
     function myplan() {
         var myplan_selections = document.querySelector('.myplan-selections');
         var entries = document.querySelectorAll('.entry');
-        for (var i=0;i<entries.length;i++){
-            entries[i].onclick=function() {
+        for (var e=0;e<entries.length;e++){
+            entries[e].onclick=function() {
                 console.log("this clicks");
                 var ref = this.id;
                 var to_copy = document.querySelector('#'+ref);
