@@ -1,5 +1,7 @@
 const { Client } = require('pg');
 const cTable = require('console.table');
+var request = require('request');
+var fs = require('fs');
 
 // AWS RDS POSTGRESQL INSTANCE
 var db_credentials = new Object();
@@ -21,6 +23,8 @@ var thirdQuery = "SELECT sensorValue, COUNT (*) FROM sensorData GROUP BY sensorV
 client.query(thisQuery, (err, res) => {
     if (err) {throw err}
     else {
+    var save_path = 'data/data.txt';
+    fs.writeFileSync(save_path, JSON.stringify(res.rows));
     console.table(res.rows);
     }
 });
