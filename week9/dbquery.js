@@ -23,7 +23,7 @@ var thirdQuery = "SELECT sensorValue, COUNT (*) FROM sensorData GROUP BY sensorV
 client.query(thisQuery, (err, res) => {
     if (err) {throw err}
     else {
-    var save_path = 'data/data.txt';
+    var save_path = 'data/data.json';
     fs.writeFileSync(save_path, JSON.stringify(res.rows));
     console.table(res.rows);
     }
