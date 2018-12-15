@@ -18,10 +18,10 @@ db_credentials.port = 5432;
 
 
 // // var thisQuery = "DROP TABLE aadata;"; 
-// // var thisQuery = "DELETE FROM aadata;";
-// // var thisQuery = "SELECT * FROM aadata;";
-// // var thisQuery = "SELECT time_day, time_start, time_end, location FROM aadata WHERE time_day = 'Monday';";
-// // var thisQuery = "SELECT lng FROM aalocations;";
+// // // var thisQuery = "DELETE FROM aadata;";
+// // // var thisQuery = "SELECT * FROM aadata;";
+// // // var thisQuery = "SELECT time_day, time_start, time_end, location FROM aadata WHERE time_day = 'Monday';";
+// // // var thisQuery = "SELECT lng FROM aalocations;";
 // var thisQuery = "CREATE TABLE aadata (time_day varchar(25), time_start double precision, time_end double precision, name varchar(75), location varchar(75), address varchar(75), lat double precision, long double precision, region varchar(75), type varchar(150), interests varchar(150));";
 
 // client.query(thisQuery, (err, res) => {
