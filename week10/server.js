@@ -30,6 +30,7 @@ console.log(db_credentials.host)
 var script1 = `
 var data;
 var map_data;
+var markers;
 
 function getdata(callback) {
  Array.prototype.groupBy = function (props) {
@@ -63,11 +64,9 @@ function getdata(callback) {
 data =`
 var script2 = `
 ;
-map_data = data.groupBy(['lat','long']);
-console.log(map_data);
-callback(map_data);
 }
 function getmap(data) {
+    map_data = data.groupBy(['lat','long']);
     var elem = document.querySelector('#map');
     elem.parentNode.removeChild(elem);
     target = document.querySelector('.results');
@@ -130,15 +129,11 @@ app.get('/script.js', function(req, res) {
     // Connect to the AWS RDS Postgres database
     const client = new Pool(db_credentials);
 
-var selected_day = "Monday";
-var selected_start_time = "7:00 AM";
+// var selected_day = ['Monday', 'Tuesday'];
+// var selected_start_time = 12;
 
-var thisQuery = `SELECT * FROM aadata`;
-// var thisQuery = `SELECT lat, long, json_agg(json_build_object('loc', location, 'address', address, 'time_start', time_start, 'name', name, 'day', time_day, 'type', type, 'time_end', time_end)) as meetings
-//              FROM aadata
-//              WHERE day = ` + selected_day + 
-//              `GROUP BY lat, long
-//              ;`;
+// var thisQuery = `SELECT * FROM aadata WHERE time_day IN ` + "('" + selected_day + "')"+ ' and time_start >=' + selected_start_time+ `;`;
+var thisQuery = `SELECT * FROM aadata;`;
 
     client.query(thisQuery, (qerr, qres) => {
         if (qerr) { throw qerr }
@@ -169,7 +164,7 @@ app.get('/script2.js', function(req, res) {
     var q = `SELECT sensorTime::timestamp::date as sensorday,
              COUNT(sensorValue) as num_obs
              FROM sensorData
-             WHERE sensorValue>=11
+             WHERE sensorValue>=15
              GROUP BY sensorday
              ORDER BY sensorday;`;
 

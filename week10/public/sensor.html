@@ -46,25 +46,45 @@ for(var i=0;i<data.length;i++){
     var day = formatDate(timestamp);
     day = day.split(" 4:0");
     day = day[0];
+    day = day.split(" ");
+    day = day[0];
     var num = data[i]['num_obs'];
-    arr.push({
+    if(num<30){
+        arr.push({
         key:day,
         value: num
-    })
-}    
+        })
+    } else {
+        // do nothing
+    }
+    
+}
+
+var groupBy = function(xs, key) {
+  return xs.reduce(function(rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
+
+var grouped = groupBy(arr, 'key');
+console.log(grouped);
+console.log(grouped.length)
+for (var j=0;j<grouped.length;j++){
+    console.log(grouped[j])
+}
 
 for(i=0;i<arr.length;i++){
-    var entry = document.createElement('div');
-    entry.setAttribute('class',"entry");
-    var dayhtml= document.createElement('h2');
-    dayhtml.innerHTML=arr[i].key;
-    var counthtml = document.createElement('p');
-    counthtml.innerHTML=arr[i].value;
-    entry.appendChild(dayhtml);
-    entry.appendChild(counthtml);
-    target = document.querySelector('body');
-    target.appendChild(entry);
-    
+        var entry = document.createElement('div');
+        entry.setAttribute('class',"entry");
+        var dayhtml= document.createElement('h2');
+        dayhtml.innerHTML=arr[i].key;
+        var counthtml = document.createElement('p');
+        counthtml.innerHTML=arr[i].value;
+        entry.appendChild(dayhtml);
+        entry.appendChild(counthtml);
+        target = document.querySelector('body');
+        target.appendChild(entry);
 }
 console.log(arr);
 </script>

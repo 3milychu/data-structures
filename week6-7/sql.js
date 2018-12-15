@@ -17,7 +17,7 @@ db_credentials.port = 5432;
 // client.connect();
 
 
-// // var thisQuery = "DROP TABLE aadata;"; 
+// var thisQuery = "DROP TABLE aadata;"; 
 // // // var thisQuery = "DELETE FROM aadata;";
 // // // var thisQuery = "SELECT * FROM aadata;";
 // // // var thisQuery = "SELECT time_day, time_start, time_end, location FROM aadata WHERE time_day = 'Monday';";

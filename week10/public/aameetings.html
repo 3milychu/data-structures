@@ -30,6 +30,14 @@
         vertical-align:top;
         padding:2%;
     }
+    .myplan-selections{
+        width:100%!important;
+        height:90%;
+        overflow-y:scroll;
+        padding-bottom:10%;
+        padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+        box-sizing: content-box; /* So the width will be 100% + 17px */
+    }
     #map {
         float:right;
         width:45%;
@@ -135,6 +143,19 @@
    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
        background:#313131;
    }
+   .remove {
+       width:max-content;
+       margin-bottom:5%!important;
+       border:0.1em solid black;
+       font-size:0.5em;
+       font-weight:900;
+       padding:2%!important;
+       margin-left:90%!important;
+   }
+   .remove:hover {
+       background-color:black;
+       color:white;
+   }
    
    </style>
 <body>
@@ -228,7 +249,7 @@
 
 <div class="myplan">
     <h2>My Plan</h2>
-    <div class="myplan-selections"></div>
+    <div class="myplan-selections"><p id="starter_message">Click a meeting to add it to your plan!</p></div>
 </div>
 </body>
 <script>
@@ -252,7 +273,7 @@ $('#end').multipleSelect({
 <script>
     var results_summary = document.querySelector('#results-summary');
     var filtered_entries = document.querySelector('#filtered-entries');
-    
+    getmap(data);
     getlist(data);
     
     function time(decimal_time){
@@ -301,7 +322,6 @@ $('#end').multipleSelect({
         filtered_entries.appendChild(entry); 
         }
     };
-    
    
     var filters = document.querySelectorAll('input');
     for(b=0;b<filters.length;b++){
@@ -318,6 +338,7 @@ $('#end').multipleSelect({
                 updated_data = data.filter(f => checked_days.includes(f.time_day));
                 getlist(updated_data);
                 getmap(updated_data);
+                getdata(getmap);
                 myplan();
             } else if (checked_value == "selectItemdays"){
                 var checked = document.querySelectorAll('input[data-name=selectItemdays]:checked');
@@ -328,7 +349,8 @@ $('#end').multipleSelect({
                 updated_data = data.filter(f => checked_days.includes(f.time_day));
                 console.log(updated_data);
                 getlist(updated_data);
-                getmap(updated_data)
+                getmap(updated_data);
+                getdata(getmap);
                 myplan();
             }
             // Start time filter
@@ -360,16 +382,37 @@ $('#end').multipleSelect({
         var entries = document.querySelectorAll('.entry');
         for (var e=0;e<entries.length;e++){
             entries[e].onclick=function() {
-                console.log("this clicks");
+                if(myplan_selections.querySelector('#starter_message') != null){
+                    myplan_selections.querySelector('#starter_message').remove();
+                }
+                
                 var ref = this.id;
                 var to_copy = document.querySelector('#'+ref);
                 var saved_entry = document.createElement('div');
+                saved_entry.setAttribute("id", "myplan_"+ref);
+                var remove = document.createElement('div');
+                remove.setAttribute("class", "remove");
+                remove.innerHTML="X";
                 saved_entry.innerHTML = to_copy.innerHTML;
+                saved_entry.prepend(remove);
                 myplan_selections.appendChild(saved_entry);
+                 modifyPlan();
             }
         }
     }
     myplan();
+    
+    function modifyPlan() {
+        var removes = document.querySelectorAll('.remove');
+        for(var a=0;a<removes.length;a++){
+            removes[a].onclick=function(e) {
+                var to_remove = e.target.parentNode.id;
+                console.log(to_remove);
+                document.querySelector('#'+to_remove).remove();
+            }
+        }
+    }
+
     
 </script>
 </html>
