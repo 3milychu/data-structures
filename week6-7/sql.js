@@ -7,7 +7,7 @@ const { Client } = require('pg');
 // // AWS RDS POSTGRESQL INSTANCE
 var db_credentials = new Object();
 db_credentials.user = 'chue134';
-db_credentials.host = 'aadb.chdfkvzuvifk.us-east-2.rds.amazonaws.com';
+db_credentials.host = process.env.AWSRDS_EP;
 db_credentials.database = 'aadb';
 db_credentials.password = process.env.AWSRDS_PW;
 db_credentials.port = 5432;
@@ -17,12 +17,12 @@ db_credentials.port = 5432;
 // client.connect();
 
 
-// var thisQuery = "DROP TABLE aadata;"; 
-// var thisQuery = "DELETE FROM aadata;";
-// var thisQuery = "SELECT * FROM aadata;";
-// var thisQuery = "SELECT time_day, time_start, time_end FROM aadata WHERE time_day = 'Monday';";
-// var thisQuery = "SELECT lng FROM aalocations;";
-// var thisQuery = "CREATE TABLE aadata (time_day varchar(25), time_start varchar(25), time_end varchar(25), name varchar(75), location varchar(75), address varchar(75), lat double precision, long double precision, region varchar(75), type varchar(150), interests varchar(150));";
+// // var thisQuery = "DROP TABLE aadata;"; 
+// // var thisQuery = "DELETE FROM aadata;";
+// // var thisQuery = "SELECT * FROM aadata;";
+// // var thisQuery = "SELECT time_day, time_start, time_end, location FROM aadata WHERE time_day = 'Monday';";
+// // var thisQuery = "SELECT lng FROM aalocations;";
+// var thisQuery = "CREATE TABLE aadata (time_day varchar(25), time_start double precision, time_end double precision, name varchar(75), location varchar(75), address varchar(75), lat double precision, long double precision, region varchar(75), type varchar(150), interests varchar(150));";
 
 // client.query(thisQuery, (err, res) => {
 //     console.log(err, res);
@@ -34,7 +34,7 @@ function format(n) {
 }
 
 
-for (var i=1;i<2;i++){
+for (var i=1;i<11;i++){
     var file = format(i);
     var json = fs.readFileSync("data/sql_m" + file + ".json");
     var data = JSON.parse(json);
