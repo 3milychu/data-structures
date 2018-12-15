@@ -133,7 +133,7 @@ app.get('/script.js', function(req, res) {
 // var selected_start_time = 12;
 
 // var thisQuery = `SELECT * FROM aadata WHERE time_day IN ` + "('" + selected_day + "')"+ ' and time_start >=' + selected_start_time+ `;`;
-var thisQuery = `SELECT * FROM aadata;`;
+var thisQuery = `SELECT * FROM aadata ORDER BY time_start;`;
 
     client.query(thisQuery, (qerr, qres) => {
         if (qerr) { throw qerr }

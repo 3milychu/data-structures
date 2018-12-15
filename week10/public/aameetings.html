@@ -156,6 +156,52 @@
        background-color:black;
        color:white;
    }
+ .time-slider label {
+     color:#A0A0A0;
+     font-size:0.5em;
+     letter-spacing:0.05em;
+ }
+ .tooltip {
+     font-size:0.7em;
+     font-weight:900;
+     
+ }
+.time-slider {
+    position: relative;
+    width: 50%;
+    display:inline-block;
+    vertical-align:middle;
+    margin: 0 auto 20px;
+    height: 35px;
+    text-align: center;
+}
+
+.time-slider input {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 15px;
+    width: 100%;
+    outline: none;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.time-slider input::-webkit-slider-thumb {
+    pointer-events: all;
+    position: relative;
+    z-index: 1;
+    outline: 0;
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 12px;
+    background-color: blue;
+    border: 2px solid black;
+}
+
    
    </style>
 <body>
@@ -182,51 +228,14 @@
             </select>
         </div>
         <p>between</p>
-        <div class="filter">
-            <select size="18" name="start" multiple="multiple" id="start">
-                <option value=6>6  AM</option>
-                <option value=7>7  AM</option>
-                <option value="8 ">8  AM</option>
-                <option value="9 ">9  AM</option>
-                <option value="10 ">10  AM</option>
-                <option value="11 ">11  AM</option>
-                <option value="12 ">12  PM</option>
-                <option value="13 ">1  PM</option>
-                <option value="14 ">2  PM</option>
-                <option value="15 ">3  PM</option>
-                <option value="16 ">4  PM</option>
-                <option value="17 ">5  PM</option>
-                <option value="18 ">6  PM</option>
-                <option value="19 ">7  PM</option>
-                <option value="20 ">8  PM</option>
-                <option value="21 ">9  PM</option>
-                <option value="22 ">10  PM</option>
-                <option value="23 ">11  PM</option>
-            </select>
-        </div>
-        <p>and</p>
-        <div class="filter">
-            <select size="18" name="end" multiple="multiple" id="end">
-                <option value="6">6  AM</option>
-                <option value="7">7  AM</option>
-                <option value="8">8  AM</option>
-                <option value="9 ">9  AM</option>
-                <option value="10 ">10  AM</option>
-                <option value="11 ">11  AM</option>
-                <option value="12 ">12  PM</option>
-                <option value="13 ">1  PM</option>
-                <option value="14 ">2  PM</option>
-                <option value="15 ">3  PM</option>
-                <option value="16 ">4  PM</option>
-                <option value="17 ">5  PM</option>
-                <option value="18 ">6  PM</option>
-                <option value="19 ">7  PM</option>
-                <option value="20 ">8  PM</option>
-                <option value="21 ">9  PM</option>
-                <option value="22 ">10  PM</option>
-                <option value="23 ">11  PM</option>
-            </select>
-        </div>
+        
+<div class="time-slider">
+    <label style="float:left;">12AM</label>
+	<input value="0" min="0" max="23.45" step="0.15" type="range" oninput="updateTimeLabels();">
+	<label style="float:right;">11:59PM</label>
+	<input value="24" min="0" max="24" step="0.15" type="range" oninput="updateTimeLabels();">
+</div>
+
         
     </div>
 </div>
@@ -285,7 +294,10 @@ $('#end').multipleSelect({
      if(hour == 12) {
          hour = 12;
          ampm = "PM";
-         } else if (hour>12) {
+     } else if (hour == 24 | hour == 0) {
+        hour = 12;
+         ampm="AM";
+     } else if (hour>12) {
          hour = hour-12;
          ampm = "PM";
      } else {
@@ -322,18 +334,16 @@ $('#end').multipleSelect({
         filtered_entries.appendChild(entry); 
         }
     };
-   
+    var updated_data = data;
     var filters = document.querySelectorAll('input');
-    for(b=0;b<filters.length;b++){
+    for(var b=0;b<filters.length;b++){
         filters[b].onclick=function(){
-            var updated_data = data;
+            updated_data = data;
             var checked_days = [];
             var checked_start = [];
-            console.log('click registered');
             var checked_value = this.getAttribute('data-name');
-            console.log(checked_value);
             // Days filter
-            if(checked_value == "selectAllDays"){
+            if(checked_value == "selectAlldays"){
                 checked_days.push("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
                 updated_data = data.filter(f => checked_days.includes(f.time_day));
                 getlist(updated_data);
@@ -345,34 +355,11 @@ $('#end').multipleSelect({
                 for(c=0;c<checked.length;c++){
                     checked_days.push(checked[c].value);
                     }
-                console.log(checked_days);
                 updated_data = data.filter(f => checked_days.includes(f.time_day));
-                console.log(updated_data);
                 getlist(updated_data);
                 getmap(updated_data);
                 getdata(getmap);
                 myplan();
-            }
-            // Start time filter
-            else if(checked_value == "selectItemstart"){
-                var checked = document.querySelectorAll('input[data-name=selectItemstart]:checked');
-                if(checked.length>0){
-                    for(c=0;c<checked.length;c++){
-                    checked_start.push(parseFloat(checked[c].value));
-                    }
-                    console.log(checked_start);
-                    updated_data = updated_data.filter(f => checked_start.includes(f.time_start));
-                    console.log(updated_data);
-                    getlist(updated_data);
-                    getmap(updated_data)
-                    myplan();
-                } else if (checked.length=0){
-                    getlist(updated_data);
-                    getmap(updated_data)
-                    myplan();
-                   
-                }
-                
             }
         }
     }
@@ -412,6 +399,46 @@ $('#end').multipleSelect({
             }
         }
     }
+    
+
+updateTimeLabels();
+function updateTimeLabels() {
+    //avoids slider overlap
+    var sliders = document.querySelectorAll(".time-slider input");
+    var val1 = parseInt(sliders[0].value);
+    
+    var val2 = parseInt(sliders[1].value);
+    console.log(val1 + val2);
+    if (val1 >= val2) {
+        sliders[0].value = val2 - 3;
+        return;
+    }
+    if (val2 <= val1) {
+        sliders[1].value = val1 + 3;
+        return;
+    }
+    
+    if(document.querySelector('.tooltip')!=null){
+        document.querySelector('.tooltip').remove();
+        var tooltip = document.createElement('div');
+        tooltip.setAttribute("class", "tooltip");
+        tooltip.innerHTML=time(val1) + " - " + time(val2);
+        document.querySelector('.time-slider').appendChild(tooltip);
+    } else {
+
+        var tooltip = document.createElement('div');
+        tooltip.setAttribute("class", "tooltip");
+        tooltip.innerHTML=time(val1) + " - " + time(val2);
+        document.querySelector('.time-slider').appendChild(tooltip);
+    }
+    
+    // update data
+    updated_data = updated_data.filter(f => f.time_start >= val1 && f.time_end <= val2);
+    getlist(updated_data);
+    getmap(updated_data);
+    getdata(getmap);
+    myplan();
+}
 
     
 </script>
