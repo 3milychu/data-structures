@@ -337,33 +337,31 @@ $('#end').multipleSelect({
     };
     
     var updated_data = data;
-    var checked_days = [];
-    var filters = document.querySelectorAll('input');
+    var checked_days =[];
+    var filters = document.querySelectorAll('input[type=checkbox]');
     for(var b=0;b<filters.length;b++){
         filters[b].onclick=function(){
             var checked_value = this.getAttribute('data-name');
             // Days filter
             if(checked_value == "selectAlldays"){
+                updated_data = data;
+                checked_days = [];
                 checked_days.push("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
                 if(updated_data.length==data.length){
                     updated_data = data.filter(f => checked_days.includes(f.time_day));
                 }else {
                     updated_data = updated_data.filter(f => checked_days.includes(f.time_day));
                 }
-                getlist(updated_data);
-                getmap(updated_data);
-                getdata(getmap);
-                myplan();
+                updateTimeLabels();
             } else if (checked_value == "selectItemdays"){
+                updated_data = data;
+                checked_days = [];
                 var checked = document.querySelectorAll('input[data-name=selectItemdays]:checked');
                 for(c=0;c<checked.length;c++){
                     checked_days.push(checked[c].value);
                     }
                 updated_data =data.filter(f => checked_days.includes(f.time_day));
-                getlist(updated_data);
-                getmap(updated_data);
-                getdata(getmap);
-                myplan();
+                updateTimeLabels();
             }
         }
     }
@@ -404,14 +402,14 @@ $('#end').multipleSelect({
     }
     
 
-updateTimeLabels();
+
 function updateTimeLabels() {
     //avoids slider overlap
     var sliders = document.querySelectorAll(".time-slider input");
     var val1 = parseInt(sliders[0].value);
     
     var val2 = parseInt(sliders[1].value);
-    console.log(val1 + val2);
+    // console.log(val1 + val2);
     if (val1 >= val2) {
         sliders[0].value = val2 - 3;
         return;
@@ -439,8 +437,8 @@ function updateTimeLabels() {
     if(checked_days.length!=0){
         updated_data = data.filter(f => checked_days.includes(f.time_day));
         updated_data = updated_data.filter(f => f.time_start >= val1 && f.time_end <= val2);
-    }else {
-         updated_data = updated_data.filter(f => f.time_start >= val1 && f.time_end <= val2);
+    }else if(checked_days.length==0) {
+         updated_data = data.filter(f => f.time_start >= val1 && f.time_end <= val2);
     }
     getlist(updated_data);
     getmap(updated_data);

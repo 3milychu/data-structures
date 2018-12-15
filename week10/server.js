@@ -84,7 +84,6 @@ function getmap(data) {
     }).addTo(mymap);
     for (var i=0; i<map_data.length; i++) {
         ref = map_data[i];
-        console.log(ref);
         meetings=[];
         meetings.push("<h2>" + ref.values[0]['location'] + "</h2>");
         meetings.push("<p>"+ref.values[0]['address']+"</p>");
