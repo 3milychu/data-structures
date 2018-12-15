@@ -281,128 +281,137 @@ $('#end').multipleSelect({
 </script>
 <script src="/script.js"></script>
 <script>
-    var results_summary = document.querySelector('#results-summary');
-    var filtered_entries = document.querySelector('#filtered-entries');
-    getmap(data);
-    getlist(data);
-    
-    function time(decimal_time){
-    decimal_time = decimal_time.toString();
-     var hour = decimal_time.split(".")[0];
-     var min = decimal_time.split(".")[1];
-     var ampm;
-     hour = (hour < 10) ? ("0" + hour) : hour;
-     if(hour == 12) {
-         hour = 12;
-         ampm = "PM";
-     } else if (hour == 24 | hour == 0) {
-        hour = 12;
-         ampm="AM";
-     } else if (hour>12) {
-         hour = hour-12;
-         ampm = "PM";
-     } else {
-         hour = hour;
-         ampm = "AM";
-     }
-     if(min!=null){
-         min = (min < 10) ? (min + "0") : min;
-     } else {
-         min = "00";
-     }
-     return hour + ":" + min + " " + ampm;
-    }
-    
-    function getlist(data) {
-      results_summary.innerHTML=data.length + " results"; 
-      filtered_entries.innerHTML="";
-      for(a=0;a<data.length;a++){
-        var entry = document.createElement('div');
-        entry.id = "entry"+a;
-        entry.className="entry";
-        var title = document.createElement('h2');
-        title.innerHTML= data[a]['name'];
-        var mtglocation = document.createElement('h2');
-        mtglocation.innerHTML= data[a]['location'];
-        var address = document.createElement('p');
-        address.innerHTML= data[a]['address'];
-        var mtgtime = document.createElement('p');
-        mtgtime.innerHTML = data[a]['time_day'] +"s from " + time(data[a]['time_start']) + " - " + time(data[a]['time_end']);
-        entry.appendChild(title);
-        entry.appendChild(mtglocation);
-        entry.appendChild(address);
-        entry.appendChild(mtgtime);
-        filtered_entries.appendChild(entry); 
-        }
-    };
-    
-    var updated_data = data;
-    var checked_days =[];
-    var filters = document.querySelectorAll('input[type=checkbox]');
-    for(var b=0;b<filters.length;b++){
-        filters[b].onclick=function(){
-            var checked_value = this.getAttribute('data-name');
-            // Days filter
-            if(checked_value == "selectAlldays"){
-                updated_data = data;
-                checked_days = [];
-                checked_days.push("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
-                if(updated_data.length==data.length){
-                    updated_data = data.filter(f => checked_days.includes(f.time_day));
-                }else {
-                    updated_data = updated_data.filter(f => checked_days.includes(f.time_day));
-                }
-                updateTimeLabels();
-            } else if (checked_value == "selectItemdays"){
-                updated_data = data;
-                checked_days = [];
-                var checked = document.querySelectorAll('input[data-name=selectItemdays]:checked');
-                for(c=0;c<checked.length;c++){
-                    checked_days.push(checked[c].value);
-                    }
-                updated_data =data.filter(f => checked_days.includes(f.time_day));
-                updateTimeLabels();
-            }
-        }
-    }
-    
-    function myplan() {
-        var myplan_selections = document.querySelector('.myplan-selections');
-        var entries = document.querySelectorAll('.entry');
-        for (var e=0;e<entries.length;e++){
-            entries[e].onclick=function() {
-                if(myplan_selections.querySelector('#starter_message') != null){
-                    myplan_selections.querySelector('#starter_message').remove();
-                }
-                
-                var ref = this.id;
-                var to_copy = document.querySelector('#'+ref);
-                var saved_entry = document.createElement('div');
-                saved_entry.setAttribute("id", "myplan_"+ref);
-                var remove = document.createElement('div');
-                remove.setAttribute("class", "remove");
-                remove.innerHTML="X";
-                saved_entry.innerHTML = to_copy.innerHTML;
-                saved_entry.prepend(remove);
-                myplan_selections.appendChild(saved_entry);
-                 modifyPlan();
-            }
-        }
-    }
-    myplan();
-    
-    function modifyPlan() {
-        var removes = document.querySelectorAll('.remove');
-        for(var a=0;a<removes.length;a++){
-            removes[a].onclick=function(e) {
-                var to_remove = e.target.parentNode.id;
-                document.querySelector('#'+to_remove).remove();
-            }
-        }
-    }
-    
 
+var results_summary = document.querySelector('#results-summary');
+var filtered_entries = document.querySelector('#filtered-entries');
 
+// Get landing view
+
+getmap(data);
+getlist(data);
+
+// ** -- Functions -- **
+
+// Format time 
+function time(decimal_time){
+decimal_time = decimal_time.toString();
+ var hour = decimal_time.split(".")[0];
+ var min = decimal_time.split(".")[1];
+ var ampm;
+ hour = (hour < 10) ? ("0" + hour) : hour;
+ if(hour == 12) {
+     hour = 12;
+     ampm = "PM";
+ } else if (hour == 24 | hour == 0) {
+    hour = 12;
+     ampm="AM";
+ } else if (hour>12) {
+     hour = hour-12;
+     ampm = "PM";
+ } else {
+     hour = hour;
+     ampm = "AM";
+ }
+ if(min!=null){
+     min = (min < 10) ? (min + "0") : min;
+ } else {
+     min = "00";
+ }
+ return hour + ":" + min + " " + ampm;
+}
+
+// Return the count and text list of data
+function getlist(data) {
+  results_summary.innerHTML=data.length + " results"; 
+  filtered_entries.innerHTML="";
+  for(a=0;a<data.length;a++){
+    var entry = document.createElement('div');
+    entry.id = "entry"+a;
+    entry.className="entry";
+    var title = document.createElement('h2');
+    title.innerHTML= data[a]['name'];
+    var mtglocation = document.createElement('h2');
+    mtglocation.innerHTML= data[a]['location'];
+    var address = document.createElement('p');
+    address.innerHTML= data[a]['address'];
+    var mtgtime = document.createElement('p');
+    mtgtime.innerHTML = data[a]['time_day'] +"s from " + time(data[a]['time_start']) + " - " + time(data[a]['time_end']);
+    entry.appendChild(title);
+    entry.appendChild(mtglocation);
+    entry.appendChild(address);
+    entry.appendChild(mtgtime);
+    filtered_entries.appendChild(entry); 
+    }
+};
+
+// On filter input selection, update the data, store it, and reget list and map 
+var updated_data = data;
+var checked_days =[];
+var filters = document.querySelectorAll('input[type=checkbox]');
+for(var b=0;b<filters.length;b++){
+    filters[b].onclick=function(){
+        var checked_value = this.getAttribute('data-name');
+        // Days filter
+        if(checked_value == "selectAlldays"){
+            updated_data = data;
+            checked_days = [];
+            checked_days.push("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+            if(updated_data.length==data.length){
+                updated_data = data.filter(f => checked_days.includes(f.time_day));
+            }else {
+                updated_data = updated_data.filter(f => checked_days.includes(f.time_day));
+            }
+            updateTimeLabels();
+        } else if (checked_value == "selectItemdays"){
+            updated_data = data;
+            checked_days = [];
+            var checked = document.querySelectorAll('input[data-name=selectItemdays]:checked');
+            for(c=0;c<checked.length;c++){
+                checked_days.push(checked[c].value);
+                }
+            updated_data =data.filter(f => checked_days.includes(f.time_day));
+            updateTimeLabels();
+        }
+    }
+}
+
+// On text list selection, add entry to my plan
+function myplan() {
+    var myplan_selections = document.querySelector('.myplan-selections');
+    var entries = document.querySelectorAll('.entry');
+    for (var e=0;e<entries.length;e++){
+        entries[e].onclick=function() {
+            if(myplan_selections.querySelector('#starter_message') != null){
+                myplan_selections.querySelector('#starter_message').remove();
+            }
+            var ref = this.id;
+            var to_copy = document.querySelector('#'+ref);
+            var saved_entry = document.createElement('div');
+            saved_entry.setAttribute("id", "myplan_"+ref);
+            var remove = document.createElement('div');
+            remove.setAttribute("class", "remove");
+            remove.innerHTML="X";
+            saved_entry.innerHTML = to_copy.innerHTML;
+            saved_entry.prepend(remove);
+            myplan_selections.appendChild(saved_entry);
+            modifyPlan();
+        }
+    }
+}
+myplan();
+
+// On removal of my plan list, remove from my plan
+function modifyPlan() {
+    var removes = document.querySelectorAll('.remove');
+    for(var a=0;a<removes.length;a++){
+        removes[a].onclick=function(e) {
+            var to_remove = e.target.parentNode.id;
+            document.querySelector('#'+to_remove).remove();
+        }
+    }
+}
+
+// On selection of time filter inputs, update data, store it, and reget list and map
 function updateTimeLabels() {
     //avoids slider overlap
     var sliders = document.querySelectorAll(".time-slider input");
@@ -446,6 +455,5 @@ function updateTimeLabels() {
     myplan();
 }
 
-    
 </script>
 </html>

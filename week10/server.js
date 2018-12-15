@@ -32,33 +32,28 @@ var data;
 var map_data;
 var markers;
 
+// make it possible to group by lat long later
 function getdata(callback) {
  Array.prototype.groupBy = function (props) {
    var arr = this;
    var partialResult = {};
    
    arr.forEach(el=>{
-   
        var grpObj = {};
-       
        props.forEach(prop=>{
              grpObj[prop] = el[prop]
        });
-       
        var key = JSON.stringify(grpObj);
-       
        if(!partialResult[key]) partialResult[key] = [];
-       
        partialResult[key].push(el);
        
    });
-   
+
    var finalResult = Object.keys(partialResult).map(key=>{
       var keyObj = JSON.parse(key);
       keyObj.values = partialResult[key];
       return keyObj;
    })
-   
    return finalResult;
 }
 data =`
@@ -66,7 +61,11 @@ var script2 = `
 ;
 }
 function getmap(data) {
+
+    // group data by lat long
     map_data = data.groupBy(['lat','long']);
+    
+    // make map
     var elem = document.querySelector('#map');
     elem.parentNode.removeChild(elem);
     target = document.querySelector('.results');
@@ -82,6 +81,8 @@ function getmap(data) {
         // accessToken: 'your.mapbox.access.token'
         accessToken: 'pk.eyJ1Ijoidm9ucmFtc3kiLCJhIjoiY2pveGF0aDV2MjIyOTNsbWxlb2hhMmR4dCJ9.JJdYD_jWgRwUeJkDWiBz3w'
     }).addTo(mymap);
+    
+    // create popup information
     for (var i=0; i<map_data.length; i++) {
         ref = map_data[i];
         meetings=[];
@@ -93,6 +94,8 @@ function getmap(data) {
         }
         
         string_meetings = meetings.join("<br>");
+        
+        // add markers and bind popup information
         L.marker( [map_data[i].lat, map_data[i].long] ).bindPopup(string_meetings).addTo(mymap);
     }  
 }
@@ -125,8 +128,8 @@ getdata(getmap);
 `
 app.get('/script.js', function(req, res) {
     
-    // Connect to the AWS RDS Postgres database
-    const client = new Pool(db_credentials);
+// Connect to the AWS RDS Postgres database
+const client = new Pool(db_credentials);
 
 // var selected_day = ['Monday', 'Tuesday'];
 // var selected_start_time = 12;
@@ -189,6 +192,8 @@ var html6 = `
 
 // respond to requests for /deardiary
 app.get('/script3.js', function(req, res) {
+    
+    var temporality = "present";
 
     // Connect to the AWS DynamoDB database
     var dynamodb = new AWS.DynamoDB();
@@ -202,7 +207,7 @@ app.get('/script3.js', function(req, res) {
             "#tp" : "temporality"
         },
         ExpressionAttributeValues: { // the query values
-            ":tp": {S: "present"},
+            ":tp": {S: temporality},
             // ":min": {S: new Date("October 1, 2018").toDateString()},
             // ":max": {S: new Date("October 10, 2018").toDateString()}
         }
