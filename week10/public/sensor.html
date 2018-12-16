@@ -259,15 +259,16 @@ console.log("Total number of valid readings: " + total);
 console.log("Min avg: " + min + ", Max avg: "+ max);
 console.log("The most sentimental days: " + maxDays)
 
-// visualize in page
-
+// visualize each day's average in page
 for(i=0;i<avgDOW.length;i++){
         var entry = document.createElement('div');
+        
+        // low, high and medium distribution as class
         var percentile = avgDOW[i].avg/total;
         var rank;
-        if(percentile<0.25){
+        if(percentile<0.10){
             rank = "low";
-        }else if (percentile >= 0.25 && percentile <=0.75){
+        }else if (percentile >= 0.11 && percentile <=0.15){
             rank = "medium";
         } else {
             rank = "high";
@@ -286,11 +287,13 @@ for(i=0;i<avgDOW.length;i++){
         target.appendChild(entry);
 }
 
+// Day of week summary
 var DOW_summ = document.createElement('p');
 DOW_summ.setAttribute("class", "DOW_summary");
 DOW_summ.innerHTML = "You are most sentimental on " + maxDays +"!";
 document.querySelector('#dayofweek').prepend(DOW_summ);
 
+// Vitals informaiton
 var vitals = document.createElement('div');
 vitals.setAttribute("class", "vitals");
 vitals.innerHTML="<h1>Vitals</h1>";
