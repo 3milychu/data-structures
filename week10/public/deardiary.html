@@ -142,6 +142,7 @@ var present = data.filter(function(d){return d.temporality['S']=="present"})
 // var bad_mental = data.filter(function(d){return d.mental['N']<=5})
 console.log(present);
 
+// show all present doodles
 for(var i=0;i<present.length;i++){
     var target=document.querySelector('#present')
     var entry = document.createElement('div');
@@ -153,6 +154,7 @@ for(var i=0;i<present.length;i++){
     target.appendChild(entry);
 }
 
+// when clicking on each displayed doodle, reveal entry details
 var entries = document.querySelectorAll('.entry');
 for(i=0;i<entries.length;i++){
     entries[i].onclick=function() {
