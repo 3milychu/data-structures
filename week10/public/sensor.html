@@ -246,7 +246,11 @@ function DOW_plural (abb) {
         return "Thursdays";
     } else if (abb == "Fri") {
         return "Fridays";
-    } else return "No Days";
+    } else if (abb == "Sat"){
+        return "Saturdays";
+    }else if (abb == "Sun"){
+        return "Sundays";
+    }
 }
 
 // print summary readings to console
