@@ -12,19 +12,23 @@ body, html {
    margin:0;
    font-family:'Nunito', sans-serif;
 }
-.low {
+body {
+    padding:3%;
+}
+.heatmap {
     width:3em;
     height:3em;
+    text-align:center;
+    color:white;
+    font-weight:900;
+}
+.low {
     background-color:#D3E9F8;
 }
 .medium {
-    width:3em;
-    height:3em;
     background-color:#349FEC;
 }
 .high {
-   width:3em;
-   height:3em;
     background-color:#0060BB;
 }
 .entry h2 {
@@ -45,6 +49,7 @@ body, html {
 #dayofweek {
     width:40%;
     display:inline-block;
+    margin-top:5%;
     vertical-align:top;
 }
 #higgy {
@@ -54,10 +59,21 @@ body, html {
 }
 #higgy img {
     width:30%;
+    animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+    0% {
+        opacity:0;
+        transform:translateY(3em);
+    }
+    100% {
+        opacity:1;
+        transform:translateY(0em);
+        
+    }
 }
 .logo {
     width:max-content;
-    margin:2%;
 }
 .logo h1 {
     width:100%;
@@ -67,6 +83,43 @@ body, html {
     font-size:1em;
     border:0.2em solid black;
     text-align:center;
+}
+.info {
+    position:absolute;
+    width:20%;
+    left:25%;
+    background-color:#F2F2F2;
+    padding:1% 2%;
+    border-radius:0.5em;
+}
+.info h1 {
+    font-size:1.8em;
+    font-weight:100;
+}
+.info p {
+    font-size:0.8em;
+    font-weight:600;
+}
+.vitals {
+    margin-top:5%;
+    width:max-content;
+    padding:2% 5%;
+    background-color:#F2F2F2;
+}
+.vitals h1, .vitals p {
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-size:0.6em;
+    line-height:1em;
+}
+.vitals h1 {
+    font-weight:900;
+}
+.vitals p {
+    font-weight:600;
+}
+em {
+    font-style:normal;
 }
 
 </style>
@@ -79,7 +132,14 @@ body, html {
 
 <!--Higgy-->
 <div id="higgy">
+        <div class="info">
+        <h1>Hi! I’m Higgy.</h1>
+        <p>I record the sentimentality of your household,
+based on how often you visit sentimental objects
+such as old cards, photos, gifts and knick-knacks.</p>
+        </div>
     <img src="assets/higgy_placeholder.png"></img>
+
 </div>
 
 <!--Summaryy-->
@@ -112,7 +172,7 @@ return function(str) {
 // modify data into new array by timestamp including day of the week
 var arr = [];
 for(var i=0;i<data.length;i++){
-    var timestamp = data[i]['sensorday'];
+    var timestamp = new Date(data[i]['sensorday']);
     var day = formatDate(timestamp);
     day = day.split(" 4:0");
     day = day[0];
@@ -212,7 +272,7 @@ for(i=0;i<avgDOW.length;i++){
         var dayhtml= document.createElement('h2');
         dayhtml.innerHTML=avgDOW[i].day;
         var heatmap = document.createElement('div');
-        heatmap.setAttribute('class',rank)
+        heatmap.setAttribute('class',"heatmap " + rank)
         var counthtml = document.createElement('p');
         counthtml.innerHTML=avgDOW[i].avg;
         heatmap.appendChild(counthtml);
@@ -225,6 +285,22 @@ for(i=0;i<avgDOW.length;i++){
 var DOW_summ = document.createElement('p');
 DOW_summ.setAttribute("class", "DOW_summary");
 DOW_summ.innerHTML = "You are most sentimental on " + maxDays +"!";
-document.querySelector('#dayofweek').prepend(DOW_summ)
+document.querySelector('#dayofweek').prepend(DOW_summ);
+
+var vitals = document.createElement('div');
+vitals.setAttribute("class", "vitals");
+vitals.innerHTML="<h1>Vitals</h1>";
+var birth = document.createElement('p');
+birthday = new Date(data[0]['sensorday']).toString();
+birthday = birthday.split("19:")
+birth.innerHTML="<em>Born on : </em>" + birthday[0];
+var vitals_total = document.createElement('p');
+vitals_total.innerHTML = "<em>Sentimental Acts Recorded: </em>" + total;
+higgy = document.querySelector('#higgy');
+vitals.appendChild(birth);
+vitals.appendChild(vitals_total);
+higgy.appendChild(vitals);
+
+
 </script>
 </html>
