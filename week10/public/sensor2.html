@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,900" rel="stylesheet">
+	<meta name="viewport" content="width=device-width">
+</head>
+<style>
+@keyframes fadeIn{
+	0% {opacity:0;}
+	100% {opacity:1;}
+}
+.main {
+	width:100%;
+	margin:auto;
+	height:70vh;
+	overflow:hidden;
+	text-align:center;
+}
+body, html {
+	position:relative;
+	font-family:'Nunito', sans-serif;
+	color:#666666;
+	height:100vh;
+	margin:0;
+	top:0;
+	left:0;
+	width:100%;
+	overflow:hidden;
+}
+iframe {
+	animation:fadeIn 0.5s ease-in-out;
+}
+.caption {
+	text-align:center;
+	animation:fadeIn 0.5s ease-in-out;
+	width:100%;
+	margin:0%;
+}
+.caption h2 {
+	font-size:0.8em;
+	font-weight:400;
+	width:80%;
+	margin:auto;
+	animation:fadeIn 0.5s ease-in-out;
+}
+.page-controls{
+	position:absolute;
+	top:2%;
+	text-align:center;
+	width:100%;
+}
+.page-controls div{
+	width:1em;
+	height:1em;
+	background-color:#CCCCCC;
+	display:inline-block;
+	margin:1%;
+	cursor:pointer;
+	color:white;
+	padding:1%;
+	font-size:0.5em;
+}
+.button {
+	position:absolute;
+	left:0%;
+	bottom:0%;
+	display:block;
+	cursor:pointer;
+	font-family:'Nunito', sans-serif;
+	letter-spacing:0.1em;
+	font-size:1.5em;
+	text-transform:uppercase;
+	line-height:1.2em;
+	padding:2%;
+	width:96%;
+	background-color:#1EB4E1;
+	color:white;
+	border:0.1em solid #1EB4E1;
+	text-align:center;
+	transition:0.5s all ease-in-out;
+}
+.button:hover {
+	color:white;
+	background-color:#49d5fc;
+	border:0.1em solid #49d5fc;
+
+}
+em {
+	font-style:normal;
+	font-weight:700;
+}
+@media screen and (max-width:768px){
+	iframe {
+		margin-top:0%;
+	}
+	.button {
+		padding:4%;
+	}
+	.caption h2 {
+		line-height:2em;
+	}
+	.page-controls div{
+	padding:2%;
+	}
+}
+</style>
+<body>
+
+<div class="page-controls">
+	<div>1</div>
+	<div>2</div>
+	<div>3</div>
+	<div>4</div>
+</div>
+
+<div class="main">
+</div>
+
+<div class="caption">
+</div>
+
+</body>
+
+<script>
+
+main = document.querySelector('.main');
+caption = document.querySelector('.caption')
+controls = document.querySelectorAll('.page-controls div');
+var startbutton;
+
+startpage();
+
+
+controls[0].onclick=function(){
+	startpage();
+}
+controls[1].onclick=function() {
+	firstpage()
+}
+
+controls[2].onclick=function() {
+	secondpage();
+}
+
+controls[3].onclick=function() {
+	thirdpage();
+}
+
+function startpage() {
+	main.innerHTML="";
+	iframe=document.createElement('iframe');
+	iframe.src="0/0.html";
+	iframe.width="375";
+	iframe.height="500";
+	iframe.scrolling="no";
+	iframe.frameBorder=0;
+	main.appendChild(iframe);
+	caption.innerHTML="";
+	caption.innerHTML="<h2>A personified force-resistor sensor experiment<h2><div class='button' id='zero'>Meet Higgy</div>";
+	controls[0].style.backgroundColor="#1EB4E1";
+	controls[1].style.backgroundColor="#CCCCCC";
+	controls[2].style.backgroundColor="#CCCCCC";
+	controls[3].style.backgroundColor="#CCCCCC";
+	startbutton = document.querySelector('#zero');
+	startbutton.onclick=function() {
+		firstpage()
+	}
+	iframe.onclick=function() {
+		console.log("registering")
+	}
+}
+
+function firstpage() {
+	main.innerHTML="";
+	iframe=document.createElement('iframe');
+	iframe.src="1/1.html";
+	iframe.width="375";
+	iframe.height="500"
+	iframe.frameBorder=0;
+	main.appendChild(iframe);
+	caption.innerHTML="";
+	caption.innerHTML="<h2>I'm Higgy! I'm a sensor that tracks the sentimentality of your household based on how often you visit your sentimental corner<h2><div class='button' id='one'>Got it</div>";
+	controls[0].style.backgroundColor="#CCCCCC";
+	controls[1].style.backgroundColor="#1EB4E1";
+	controls[2].style.backgroundColor="#CCCCCC";
+	controls[3].style.backgroundColor="#CCCCCC";
+	firstbutton = document.querySelector('#one');
+	firstbutton.onclick=function() {
+		secondpage()
+	}
+}
+
+function secondpage() {
+	main.innerHTML="";
+	iframe=document.createElement('iframe');
+	iframe.src="2/2.html";
+	iframe.width="375";
+	iframe.height="700"
+	iframe.frameBorder=0;
+	main.appendChild(iframe);
+	caption.innerHTML="";
+	caption.innerHTML="<h2>Choose an available connected household sensor<h2><div class='button' id='two'>Continue</div>";
+	controls[0].style.backgroundColor="#CCCCCC";
+	controls[1].style.backgroundColor="#CCCCCC";
+	controls[2].style.backgroundColor="#1EB4E1";
+	controls[3].style.backgroundColor="#CCCCCC";
+	secondbutton = document.querySelector('#two');
+	secondbutton.onclick=function() {
+		thirdpage()
+	}
+	thirdbutton = document.querySelector('#three');
+	thirdbutton.onclick=function() {
+		fourthpage()
+	}
+}
+
+function thirdpage() {
+	main.innerHTML="";
+	iframe=document.createElement('iframe');
+	iframe.src="sensor.html";
+	iframe.width="375";
+	iframe.height="500"
+	iframe.frameBorder=0;
+	main.appendChild(iframe);
+	caption.innerHTML="";
+	caption.innerHTML="<h2><em>Your household sentimentality results</em><h2><div class='button' id='four'>Start Over</div>";
+	controls[0].style.backgroundColor="#CCCCCC";
+	controls[1].style.backgroundColor="#CCCCCC";
+	controls[2].style.backgroundColor="#CCCCCC";
+	controls[3].style.backgroundColor="#1EB4E1";
+	fourthbutton = document.querySelector('#four');
+	fourthbutton.onclick=function() {
+		startpage()
+	}
+}
+
+</script>
+
+</html>

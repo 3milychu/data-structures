@@ -3,21 +3,22 @@
     <head>
         <title>Sentimental Higgy</title>
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,900" rel="stylesheet">
+         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:700" rel="stylesheet">
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.4.4/lottie.min.js" type="text/javascript"></script>
     </head>
 <style>
 body, html {
-    width:100%;
+    width:fit-content;
    top:0;
    left:0;
    margin:0;
    font-family:'Nunito', sans-serif;
-}
-body {
-    padding:3%;
+   padding-top:0%;
+   scroll-snap-type: x mandatory;
 }
 .heatmap {
-    width:3em;
-    height:3em;
+    width:1.5em;
+    height:1.5em;
     text-align:center;
     color:white;
     font-weight:900;
@@ -32,35 +33,94 @@ body {
     background-color:#0060BB;
 }
 .entry h2 {
+    font-family:'Nunito Sans';
     display:inline-block;
+    color:#d3d3d3;
+    font-size:0.5em;
+    font-weight:700;
 }
 .entry p {
     display:inline-block;
+    font-size:0.5em;
     margin-left:5%;
+    line-height:0em;
+    font-weight:400;
+    padding:5%;
 }
 .entry {
     display:inline-block;
-    margin:3%;
+    margin:10%;
+    margin-bottom:5%;
     margin-top:0%;
     width:8%;
 }
 .DOW_summary {
     margin-left:3%;
 }
-#dayofweek {
-    width:40%;
-    display:inline-block;
-    margin-top:5%;
+.card {
     vertical-align:top;
+    border-radius:2em;
+    /*box-shadow: 0.2em 0.2em 2em #CCCCCC;*/
+    width:50vh;
+    height:50vh;
+    margin-right:2%;
+    display:inline-block;
+    scroll-snap-align: end;
+    scroll-snap-stop: always;
+    white-space:normal;
+    font-size:1.5em;
+    color:white;
+    overflow:hidden;
+}
+.card p {
+    padding:10%;
+    text-align:center;
+}
+#dayofweek {
+   background-color:#22CC7F;
+}
+#count {
+    background-color:#FC6B21;
 }
 #higgy {
-    width:40%;
-    display:inline-block;
-    padding:5%;
+    background-color:#FEC750;
 }
-#higgy img {
-    width:30%;
-    animation: fadeIn 1s ease-in-out;
+#dow-chart {
+    background-color:#081351;
+}
+#dow-chart h2 {
+    font-size:0.5em;
+    margin-left:10%;
+    font-weight:400;
+    line-height:1em;
+    margin-bottom:5%;
+}
+#dow-chart-target {
+    padding:10%;
+}
+#ending {
+    background-color:#D840B1;
+}
+#mon, #tues, #wed, #thurs, #fri {
+     border-radius:5em;
+    background-color:#C9EBF5;
+    font-size:0.5em;
+    font-weight:400;
+}
+.higgy-type{
+    background-color:#091650;
+    width:fit-content;
+    padding:4%;
+    font-family:'Nunito Sans';
+    font-weight:400;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    margin-bottom:-8%;
+    padding-left:7%;
+}
+svg {
+    transform:scale(0.9)!important;
+    transform-origin:10 0;
 }
 @keyframes fadeIn {
     0% {
@@ -73,79 +133,85 @@ body {
         
     }
 }
-.logo {
-    width:max-content;
-}
-.logo h1 {
-    width:100%;
-    padding:5%;
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    font-size:1em;
-    border:0.2em solid black;
-    text-align:center;
-}
-.info {
-    position:absolute;
-    width:20%;
-    left:25%;
-    background-color:#F2F2F2;
-    padding:1% 2%;
-    border-radius:0.5em;
-}
-.info h1 {
-    font-size:1.8em;
-    font-weight:100;
-}
-.info p {
-    font-size:0.8em;
-    font-weight:600;
-}
 .vitals {
-    margin-top:5%;
-    width:max-content;
-    padding:2% 5%;
-    background-color:#F2F2F2;
+    margin:10%;
+    width:90%;
 }
-.vitals h1, .vitals p {
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    font-size:0.6em;
-    line-height:1em;
-}
-.vitals h1 {
-    font-weight:900;
-}
-.vitals p {
-    font-weight:600;
-}
+::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* make scrollbar transparent */
+        }
 em {
+    font-family: 'Nunito Sans', sans-serif;
     font-style:normal;
+    font-size:2.5em;
+    display:block;
+}
+.scroll-post {
+    padding:5%;
+    padding-left:0%;
+    width:100%;
+    overflow-x: scroll;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space:nowrap;
+    padding-right:0%;
 }
 
 </style>
 <body>
-    
-<!--Header/Logo-->
-<div class="logo">
-    <h1>Sentimental Higgy</h1>
-</div>
 
-<!--Higgy-->
-<div id="higgy">
-        <div class="info">
-        <h1>Hi! I’m Higgy.</h1>
-        <p>I record the sentimentality of your household,
-based on how often you visit sentimental objects
-such as old cards, photos, gifts and knick-knacks.</p>
+<div class="scroll-post">
+    
+    <!--Higgy-->
+    <div class="card" id="higgy"></div>
+    
+    <!--Count-->
+    <div class="card" id="count"></div>
+    
+      <!--Day of Week-->
+    <div class="card" id="dow-chart">
+        <div id="dow-chart-target">
+            <h2>Average number of sentimental visits by weekday</h2>
         </div>
-    <img src="assets/higgy_placeholder.png"></img>
-
+    </div>
+    
+    <!--Mon Higgy-->
+    <div class="card" id="mon">
+        <h2 class="higgy-type">Monday Higgy</h2>
+    </div>
+    
+    <!--T Higgy-->
+    <div class="card" id="tues">
+        <h2 class="higgy-type">Tuesday Higgy</h2>
+    </div>
+    
+    <!--W Higgy-->
+    <div class="card" id="wed">
+         <h2 class="higgy-type">Wednesday Higgy</h2>
+    </div>
+    
+    <!--Th Higgy-->
+    <div class="card" id="thurs">
+         <h2 class="higgy-type">Thursday Higgy</h2>
+    </div>
+    
+    <!--F Higgy-->
+    <div class="card" id="fri">
+        <h2 class="higgy-type">Friday Higgy</h2>
+    </div>
+    
+    <!--Day of Week-->
+    <div class="card" id="dayofweek"></div>
+    
+    
+    <!--Ending-->
+    <div class="card" id="ending">
+        <p><em>Nice,</em>You're all caught up!</p>
+    </div>
+        
 </div>
 
-<!--Summaryy-->
-<div id="dayofweek"></div>
-    
 </body>
 
 <script type="text/javascript" src="/script2.js"></script>
@@ -285,7 +351,8 @@ for(i=0;i<avgDOW.length;i++){
         entry.appendChild(dayhtml);
         entry.appendChild(heatmap);
         target = document.querySelector('#dayofweek');
-        target.appendChild(entry);
+         target2 = document.querySelector('#dow-chart-target');
+        target2.appendChild(entry);
 }
 
 // Day of week summary
@@ -294,21 +361,80 @@ DOW_summ.setAttribute("class", "DOW_summary");
 DOW_summ.innerHTML = "You are most sentimental on " + maxDays +"!";
 document.querySelector('#dayofweek').prepend(DOW_summ);
 
+
+function getDuration(milli){
+  let minutes = Math.floor(milli / 60000);
+  let hours = Math.round(minutes / 60);
+  let days = Math.round(hours / 24);
+
+  return (
+    (days && {value: days, unit: 'days'}) ||
+    (hours && {value: hours, unit: 'hours'}) ||
+    {value: minutes, unit: 'minutes'}
+  )
+};
+
 // Vitals informaiton
-var vitals = document.createElement('div');
-vitals.setAttribute("class", "vitals");
-vitals.innerHTML="<h1>Vitals</h1>";
 var birth = document.createElement('p');
+var today = new Date();
+birthday = new Date(data[0]['sensorday']);
+var diff = Math.abs(today - birthday);
+var duration = getDuration(diff);
 birthday = new Date(data[0]['sensorday']).toString();
 birthday = birthday.split("19:")
-birth.innerHTML="<em>Born on : </em>" + birthday[0];
+birth.innerHTML="<em>"+duration.value+"</em>" + "days since birth";
 var vitals_total = document.createElement('p');
-vitals_total.innerHTML = "<em>Sentimental Acts Recorded: </em>" + total;
+vitals_total.innerHTML = "<em>"+total+"</em>" +" sentimental acts recorded";
 higgy = document.querySelector('#higgy');
-vitals.appendChild(birth);
-vitals.appendChild(vitals_total);
-higgy.appendChild(vitals);
+count = document.querySelector('#count');
+count.appendChild(vitals_total);
+higgy.appendChild(birth);
 
+// higgy manifestations
+mon=document.querySelector('#mon')
+lottie.loadAnimation({
+  container: mon, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'medium/data.json' // the path to the animation json
+});
+
+tues=document.querySelector('#tues')
+lottie.loadAnimation({
+  container: tues, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'high/data.json' // the path to the animation json
+});
+
+wed=document.querySelector('#wed')
+lottie.loadAnimation({
+  container: wed, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'high/data.json' // the path to the animation json
+});
+
+thurs=document.querySelector('#thurs')
+lottie.loadAnimation({
+  container: thurs, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'low/data.json' // the path to the animation json
+});
+
+fri=document.querySelector('#fri')
+lottie.loadAnimation({
+  container: fri, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'medium/data.json' // the path to the animation json
+});
 
 </script>
 </html>
