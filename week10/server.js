@@ -79,7 +79,7 @@ function getmap(data) {
         maxZoom: 18,
         id: 'mapbox.streets',
         // accessToken: 'your.mapbox.access.token'
-        accessToken: 'pk.eyJ1Ijoidm9ucmFtc3kiLCJhIjoiY2pveGF0aDV2MjIyOTNsbWxlb2hhMmR4dCJ9.JJdYD_jWgRwUeJkDWiBz3w'
+        accessToken: 'pk.eyJ1IjoiM21pbHljaHUiLCJhIjoiY2pwNzgybHRnMHZvMzNrcDRheGhlY21jayJ9.Cm8hkgdB9pt9NOsyhOlW-Q'
     }).addTo(mymap);
     
     // create popup information

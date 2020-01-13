@@ -8,13 +8,12 @@
     </head>
 <style>
 body, html {
-    width:fit-content;
+    overflow-x:scroll;
    top:0;
    left:0;
    margin:0;
    font-family:'Nunito', sans-serif;
-   padding-top:0%;
-   scroll-snap-type: x mandatory;
+   padding-top:15%;
 }
 .heatmap {
     width:1.5em;
@@ -63,14 +62,15 @@ body, html {
     /*box-shadow: 0.2em 0.2em 2em #CCCCCC;*/
     width:50vh;
     height:50vh;
-    margin-right:2%;
+    margin-right:15%;
     display:inline-block;
-    scroll-snap-align: end;
-    scroll-snap-stop: always;
     white-space:normal;
     font-size:1.5em;
     color:white;
     overflow:hidden;
+    scroll-snap-align:center;
+    scroll-snap-stop: always;
+    position:relative;
 }
 .card p {
     padding:10%;
@@ -122,21 +122,6 @@ svg {
     transform:scale(0.9)!important;
     transform-origin:10 0;
 }
-@keyframes fadeIn {
-    0% {
-        opacity:0;
-        transform:translateY(3em);
-    }
-    100% {
-        opacity:1;
-        transform:translateY(0em);
-        
-    }
-}
-.vitals {
-    margin:10%;
-    width:90%;
-}
 ::-webkit-scrollbar {
             width: 0px;
             background: transparent; /* make scrollbar transparent */
@@ -149,13 +134,17 @@ em {
 }
 .scroll-post {
     padding:5%;
-    padding-left:0%;
-    width:100%;
+    padding-left:10%;
     overflow-x: scroll;
     overflow-y:hidden;
-    -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
     white-space:nowrap;
-    padding-right:0%;
+    padding-right:10%;
+    scroll-snap-type: x mandatory;
+}
+@media screen and (max-width:768px){
+     body, html {
+     }
 }
 
 </style>
@@ -216,6 +205,52 @@ em {
 
 <script type="text/javascript" src="/script2.js"></script>
 <script>
+// higgy manifestations
+mon=document.querySelector('#mon')
+lottie.loadAnimation({
+  container: mon, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'medium/data.json' // the path to the animation json
+});
+
+tues=document.querySelector('#tues')
+lottie.loadAnimation({
+  container: tues, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'high/data.json' // the path to the animation json
+});
+
+wed=document.querySelector('#wed')
+lottie.loadAnimation({
+  container: wed, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'high/data.json' // the path to the animation json
+});
+
+thurs=document.querySelector('#thurs')
+lottie.loadAnimation({
+  container: thurs, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'low/data.json' // the path to the animation json
+});
+
+fri=document.querySelector('#fri')
+lottie.loadAnimation({
+  container: fri, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: true,
+  autoplay: true,
+  path: 'medium/data.json' // the path to the animation json
+});
+
 console.log(data);
 
 // give timestamp by day of week
@@ -390,51 +425,6 @@ count = document.querySelector('#count');
 count.appendChild(vitals_total);
 higgy.appendChild(birth);
 
-// higgy manifestations
-mon=document.querySelector('#mon')
-lottie.loadAnimation({
-  container: mon, // the dom element that will contain the animation
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'medium/data.json' // the path to the animation json
-});
-
-tues=document.querySelector('#tues')
-lottie.loadAnimation({
-  container: tues, // the dom element that will contain the animation
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'high/data.json' // the path to the animation json
-});
-
-wed=document.querySelector('#wed')
-lottie.loadAnimation({
-  container: wed, // the dom element that will contain the animation
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'high/data.json' // the path to the animation json
-});
-
-thurs=document.querySelector('#thurs')
-lottie.loadAnimation({
-  container: thurs, // the dom element that will contain the animation
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'low/data.json' // the path to the animation json
-});
-
-fri=document.querySelector('#fri')
-lottie.loadAnimation({
-  container: fri, // the dom element that will contain the animation
-  renderer: 'svg',
-  loop: true,
-  autoplay: true,
-  path: 'medium/data.json' // the path to the animation json
-});
 
 </script>
 </html>

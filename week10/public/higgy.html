@@ -4,7 +4,7 @@
 	<title></title>
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,900" rel="stylesheet">
-	<meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="width=device-width, height=device-height">
 </head>
 <style>
 @keyframes fadeIn{
@@ -97,6 +97,8 @@ em {
 	}
 	.button {
 		padding:4%;
+		/*padding-top:5%;*/
+		/*padding-bottom:25%;*/
 	}
 	.caption h2 {
 		line-height:2em;
@@ -179,6 +181,7 @@ function firstpage() {
 	iframe.width="375";
 	iframe.height="500"
 	iframe.frameBorder=0;
+	iframe.scrolling="no";
 	main.appendChild(iframe);
 	caption.innerHTML="";
 	caption.innerHTML="<h2>I'm Higgy! I'm a sensor that tracks the sentimentality of your household based on how often you visit your sentimental corner<h2><div class='button' id='one'>Got it</div>";
@@ -197,8 +200,9 @@ function secondpage() {
 	iframe=document.createElement('iframe');
 	iframe.src="2/2.html";
 	iframe.width="375";
-	iframe.height="700"
+	iframe.height="500"
 	iframe.frameBorder=0;
+	iframe.scrolling="no";
 	main.appendChild(iframe);
 	caption.innerHTML="";
 	caption.innerHTML="<h2>Choose an available connected household sensor<h2><div class='button' id='two'>Continue</div>";
@@ -210,10 +214,6 @@ function secondpage() {
 	secondbutton.onclick=function() {
 		thirdpage()
 	}
-	thirdbutton = document.querySelector('#three');
-	thirdbutton.onclick=function() {
-		fourthpage()
-	}
 }
 
 function thirdpage() {
@@ -223,6 +223,7 @@ function thirdpage() {
 	iframe.width="375";
 	iframe.height="500"
 	iframe.frameBorder=0;
+	iframe.scrolling="no";
 	main.appendChild(iframe);
 	caption.innerHTML="";
 	caption.innerHTML="<h2><em>Your household sentimentality results</em><h2><div class='button' id='four'>Start Over</div>";
