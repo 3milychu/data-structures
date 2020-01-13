@@ -43,6 +43,5 @@ var getAndWriteData = function() {
     });
 };
 
-// write a new row of sensor data every five minutes
-// api rate limit 10 times a second
+// write a new row of sensor data every minute
 setInterval(getAndWriteData, 60000);
